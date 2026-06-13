@@ -427,7 +427,7 @@
 
 <div class="config-bar">
   <span>API endpoint:</span>
-  <input id="apiEndpoint" value="https://vantage-zzme.onrender.com" />
+  <!input id="apiEndpoint" value="https://vantage-zzme.onrender.com" />
 </div>
 
 <div class="layout">
@@ -517,7 +517,7 @@ function toggleTheme() {
 }
 
 function getApiBase() {
-  return document.getElementById('apiEndpoint').value.trim().replace(/\/$/, '');
+  return "https://vantage-zzme.onrender.com";
 }
 
 async function runAnalysis() {
