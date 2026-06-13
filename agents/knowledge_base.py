@@ -7,7 +7,8 @@ In production, this would query a Foundry IQ knowledge base (vector
 search over the markdown documents in /knowledge_base) and return
 grounded passages with citations.
 
-For local development (and while Foundry IQ / quota is being set up),
+Local retrieval fallback used for offline execution,
+testing, and public deployment environments,
 this module performs simple keyword-based retrieval directly over the
 markdown files, returning the same shape of result. Swapping in real
 Foundry IQ search later only requires changing the implementation of
