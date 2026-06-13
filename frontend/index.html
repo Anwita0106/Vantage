@@ -4,11 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Vantage — Autonomous Access Governance</title>
-<link rel="stylesheet"
-href="https://unpkg.com/vis-network/styles/vis-network.min.css">
+<link rel="stylesheet" href="https://unpkg.com/vis-network/styles/vis-network.min.css" />
 <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-<!script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/vis-network.min.js"!>
-</script>
 <style>
   :root {
     --bg: #f4f7fb;
@@ -147,10 +144,13 @@ href="https://unpkg.com/vis-network/styles/vis-network.min.css">
 
   /* Graph panel */
   #graph-container {
-    height: 480px;
-    border-radius: 8px;
+    height: 520px;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 10px;
     background: var(--graph-bg);
     border: 1px solid var(--panel-border);
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
   }
 
   .graph-toggle {
@@ -508,47 +508,101 @@ function streamLog(lines) {
 }
 
 function renderGraph(graphData) {
-  const nodes = graphData.nodes.map(n => ({
-    id: n.id,
-    label: n.label,
-    shape: n.type === 'user' ? 'dot' : 'box',
-    color: n.type === 'user'
-      ? { background: '#6366f1', border: '#818cf8' }
-      : { background: sensitivityColor(n.sensitivity), border: '#1e293b' },
-    font: { color: '#e6e9f2', size: 12 },
-    size: n.type === 'user' ? 14 : 18,
-    shapeProperties: { borderRadius: 4 },
-  }));
+  const nodes = graphData.nodes.map(n => {
+    const isUser = n.type === 'user';
+    const isCriticalResource = (n.sensitivity || '').toLowerCase() === 'critical';
+    const isHighRiskResource = (n.sensitivity || '').toLowerCase() === 'high';
+
+    return {
+      id: n.id,
+      label: n.label,
+      shape: isUser ? 'dot' : 'box',
+      size: isUser ? 30 : 26,
+      font: {
+        color: isUser ? '#eff6ff' : '#0f172a',
+        size: 17,
+        face: 'Segoe UI, Arial, sans-serif',
+        vadjust: 0,
+      },
+      color: isUser
+        ? { background: '#2563eb', border: '#1d4ed8', highlight: { background: '#3b82f6', border: '#bfdbfe' } }
+        : isCriticalResource
+          ? { background: '#fecaca', border: '#dc2626', highlight: { background: '#fca5a5', border: '#991b1b' } }
+          : isHighRiskResource
+            ? { background: '#fed7aa', border: '#f97316', highlight: { background: '#fdba74', border: '#c2410c' } }
+            : { background: '#e5e7eb', border: '#94a3b8', highlight: { background: '#f1f5f9', border: '#64748b' } },
+      borderWidth: isUser ? 2 : 2,
+      borderWidthSelected: 3,
+      shadow: { enabled: true, color: 'rgba(15, 23, 42, 0.18)', size: 10, x: 2, y: 2 },
+      shapeProperties: { borderRadius: 6 },
+      title: `${n.label}${n.resource_name ? `\nResource: ${n.resource_name}` : ''}${n.sensitivity ? `\nRisk: ${n.sensitivity}` : ''}`,
+    };
+  });
 
   const edges = graphData.edges.map(e => ({
     from: e.source,
     to: e.target,
-    color: { color: e.color, opacity: 0.8 },
-    width: e.severity === 'Critical' || e.severity === 'High' ? 2.5 : 1,
-    arrows: { to: { enabled: true, scaleFactor: 0.4 } },
+    color: { color: e.color || '#64748b', opacity: 0.9 },
+    width: e.severity === 'Critical' || e.severity === 'High' ? 3.5 : 2.2,
+    arrows: { to: { enabled: true, scaleFactor: 0.55 } },
+    smooth: { type: 'dynamic', roundness: 0.15 },
     dashes: e.changed ? [4, 4] : false,
-    title: `${e.grant_id}: ${e.access_level} (${e.severity})`,
+    title: `User: ${e.user_name || e.source}\nResource: ${e.resource_name || e.target}\nRisk Score: ${e.risk_score ?? 'N/A'}\nRecommended Action: ${e.recommended_action || 'N/A'}`,
   }));
 
   const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
   const options = {
-    physics: { stabilization: true, barnesHut: { gravitationalConstant: -3000, springLength: 120 } },
-    interaction: { hover: true, tooltipDelay: 100 },
-    layout: { improvedLayout: true },
+    autoResize: true,
+    interaction: {
+      hover: true,
+      tooltipDelay: 120,
+      navigationButtons: false,
+      dragView: true,
+      dragNodes: true,
+      zoomView: true,
+      selectable: true,
+    },
+    layout: {
+      improvedLayout: true,
+      randomSeed: 3,
+    },
+    physics: {
+      enabled: true,
+      stabilization: { iterations: 300, fit: true },
+      barnesHut: {
+        gravitationalConstant: -10000,
+        centralGravity: 0.25,
+        springLength: 260,
+        springConstant: 0.045,
+        damping: 0.35,
+        avoidOverlap: 1,
+      },
+    },
+    nodes: {
+      font: {
+        face: 'Segoe UI, Arial, sans-serif',
+        strokeWidth: 0,
+      },
+      labelHighlightBold: false,
+    },
+    edges: {
+      font: { color: '#475569', size: 12, face: 'Segoe UI, Arial, sans-serif' },
+      arrows: { to: { enabled: true, scaleFactor: 0.6 } },
+      smooth: { enabled: true, type: 'dynamic', roundness: 0.18 },
+    },
   };
 
   const container = document.getElementById('graph-container');
   if (network) network.destroy();
   network = new vis.Network(container, data, options);
-}
 
-function sensitivityColor(sensitivity) {
-  switch (sensitivity) {
-    case 'critical': return '#7f1d1d';
-    case 'high': return '#7c2d12';
-    case 'medium': return '#374151';
-    default: return '#1f2937';
-  }
+  setTimeout(() => {
+    network.fit({ animation: true });
+  }, 120);
+
+  network.on('stabilized', () => {
+    network.fit({ animation: { duration: 600, easingFunction: 'easeInOutQuad' } });
+  });
 }
 
 function showGraph(which) {

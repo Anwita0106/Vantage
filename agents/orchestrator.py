@@ -55,8 +55,13 @@ class VantageOrchestrator:
         sim_result = self.simulation.run(policy_result["policies"])
         full_log.extend(sim_result["log"])
 
+        policy_lookup = {r["grant_id"]: r for r in sim_result["results"]}
+
         # Build graph data for visualization (before state)
-        graph_before = self._build_graph_payload(highlight_grant_ids=set())
+        graph_before = self._build_graph_payload(
+            highlight_grant_ids=set(),
+            policy_lookup=policy_lookup,
+        )
 
         # Determine which grants are removed/downgraded in the "after" state
         applied_changes = {
@@ -67,6 +72,7 @@ class VantageOrchestrator:
         graph_after = self._build_graph_payload(
             highlight_grant_ids=set(applied_changes.keys()),
             applied_changes=applied_changes,
+            policy_lookup=policy_lookup,
         )
 
         return {
@@ -87,7 +93,7 @@ class VantageOrchestrator:
             },
         }
 
-    def _build_graph_payload(self, highlight_grant_ids, applied_changes=None):
+    def _build_graph_payload(self, highlight_grant_ids, applied_changes=None, policy_lookup=None):
         """
         Build a graph JSON payload (nodes + edges) for the frontend.
 
@@ -136,6 +142,10 @@ class VantageOrchestrator:
         for grant in self.data["access_grants"]:
             grant_id = grant["grant_id"]
 
+            policy = policy_lookup.get(grant_id, {}) if policy_lookup else {}
+            recommended_action = policy.get("recommended_action") or "no_change"
+            risk_score = policy.get("risk_score")
+
             if grant_id in highlight_grant_ids:
                 change = applied_changes[grant_id]
                 if change["recommended_action"] == "remove":
@@ -150,6 +160,10 @@ class VantageOrchestrator:
                         "severity": "Low",
                         "color": severity_colors["Low"],
                         "changed": True,
+                        "risk_score": risk_score,
+                        "recommended_action": recommended_action,
+                        "user_name": grant.get("user_name") or grant.get("user_id"),
+                        "resource_name": grant.get("resource_name") or grant.get("resource_id"),
                     })
                     continue
 
@@ -162,6 +176,10 @@ class VantageOrchestrator:
                 "severity": severity,
                 "color": severity_colors.get(severity, "#94a3b8"),
                 "changed": False,
+                "risk_score": risk_score,
+                "recommended_action": recommended_action,
+                "user_name": grant.get("user_name") or grant.get("user_id"),
+                "resource_name": grant.get("resource_name") or grant.get("resource_id"),
             })
 
         return {"nodes": nodes, "edges": edges}
