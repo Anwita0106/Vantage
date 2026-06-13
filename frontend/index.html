@@ -144,8 +144,8 @@
 
   /* Graph panel */
   #graph-container {
-    height: 480px;
-    border-radius: 8px;
+    height: 650px;
+    border-radius: 10px;
     background: var(--graph-bg);
     border: 1px solid var(--panel-border);
   }
@@ -513,11 +513,14 @@ function renderGraph(graphData) {
       id: n.id,
       label: n.label,
       shape: isUser ? 'dot' : 'box',
-      size: isUser ? 28 : 24,
+      size: isUser ? 30 : 28,
       font: {
-        color: isUser ? '#eff6ff' : '#0f172a',
-        size: 16,
-        face: 'Segoe UI, Arial, sans-serif',
+        size: 18,
+        face: 'Inter, Arial, sans-serif',
+        color: '#111111',
+        strokeWidth: 4,
+        strokeColor: '#ffffff',
+        bold: { color: '#111111' },
         vadjust: 0,
       },
       color: isUser
@@ -528,8 +531,13 @@ function renderGraph(graphData) {
       borderWidth: isUser ? 2 : 2,
       borderWidthSelected: 3,
       shadow: { enabled: true, color: 'rgba(15, 23, 42, 0.18)', size: 10, x: 2, y: 2 },
-      shapeProperties: { borderRadius: 6 },
-      title: `${n.label}${n.resource_name ? `\nResource: ${n.resource_name}` : ''}${n.sensitivity ? `\nRisk: ${n.sensitivity}` : ''}`,
+      shapeProperties: {
+        borderRadius: 8,
+        widthConstraint: { minimum: 140, maximum: 220 },
+        heightConstraint: { minimum: 42 },
+        padding: 10,
+      },
+      title: `User: ${n.label}${n.resource_name ? `\nResource: ${n.resource_name}` : ''}${n.sensitivity ? `\nRisk: ${n.sensitivity}` : ''}`,
     };
   });
 
@@ -537,11 +545,11 @@ function renderGraph(graphData) {
     from: e.source,
     to: e.target,
     color: { color: e.color || '#64748b', opacity: 0.9 },
-    width: e.severity === 'Critical' || e.severity === 'High' ? 3 : 2,
+    width: e.severity === 'Critical' || e.severity === 'High' ? 3.2 : 2.2,
     arrows: { to: { enabled: true, scaleFactor: 0.55 } },
     smooth: { type: 'dynamic', roundness: 0.15 },
     dashes: e.changed ? [4, 4] : false,
-    title: `${e.grant_id || 'Grant'}: ${e.access_level || 'access'} (${e.severity || 'Normal'})`,
+    title: `User: ${e.user_name || e.source}\nResource: ${e.resource_name || e.target}\nRisk Score: ${e.risk_score ?? 'N/A'}\nRecommended Action: ${e.recommended_action || 'N/A'}`,
   }));
 
   const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
@@ -562,23 +570,31 @@ function renderGraph(graphData) {
     },
     physics: {
       enabled: true,
-      stabilization: { iterations: 200, fit: true },
-      solver: 'forceAtlas2Based',
-      forceAtlas2Based: {
-        gravitationalConstant: -80,
-        centralGravity: 0.015,
-        springLength: 180,
-        springConstant: 0.04,
-        damping: 0.32,
+      stabilization: { iterations: 300, fit: true },
+      barnesHut: {
+        gravitationalConstant: -10000,
+        centralGravity: 0.25,
+        springLength: 260,
+        springConstant: 0.045,
+        damping: 0.35,
         avoidOverlap: 1,
       },
     },
     nodes: {
       font: {
-        face: 'Segoe UI, Arial, sans-serif',
-        strokeWidth: 0,
+        size: 18,
+        face: 'Inter, Arial, sans-serif',
+        color: '#111111',
+        strokeWidth: 4,
+        strokeColor: '#ffffff',
+        bold: { color: '#111111' },
       },
-      labelHighlightBold: false,
+      labelHighlightBold: true,
+      scaling: {
+        label: true,
+        min: 16,
+        max: 18,
+      },
     },
     edges: {
       font: { color: '#475569', size: 12, face: 'Segoe UI, Arial, sans-serif' },
@@ -591,10 +607,12 @@ function renderGraph(graphData) {
   if (network) network.destroy();
   network = new vis.Network(container, data, options);
 
+  setTimeout(() => {
+    network.fit({ animation: true });
+  }, 120);
+
   network.on('stabilized', () => {
-    setTimeout(() => {
-      network.fit({ animation: { duration: 500, easingFunction: 'easeInOutQuad' } });
-    }, 80);
+    network.fit({ animation: { duration: 600, easingFunction: 'easeInOutQuad' } });
   });
 }
 
