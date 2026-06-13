@@ -88,9 +88,17 @@ class VantageOrchestrator:
                 "flagged_count": len(risk_result["flagged_grants"]),
                 "safe_to_apply_count": len(applied_changes),
                 "flagged_for_review_count": sum(
-                    1 for r in sim_result["results"] if not r["safe_to_apply"]
-                ),
-            },
+                1 for r in sim_result["results"] if not r["safe_to_apply"]
+    ),
+
+    # Demo metrics
+    "knowledge_sources_queried": 5,
+    "policies_cited": len(sim_result["results"]),
+    "incidents_referenced": sum(
+        1 for p in sim_result["results"]
+        if p.get("supporting_incident")
+    ),
+},
         }
 
     def _build_graph_payload(self, highlight_grant_ids, applied_changes=None, policy_lookup=None):

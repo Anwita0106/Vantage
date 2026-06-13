@@ -44,6 +44,52 @@
     --input-bg: #162033;
   }
 
+  body.dark .policy-card {
+    background: #111827;
+    border-color: #263145;
+    color: #edf2f7;
+  }
+
+  body.dark .policy-card .policy-title,
+  body.dark .policy-card .action-line,
+  body.dark .policy-card .citation {
+    color: #eff6ff;
+  }
+
+  body.dark .policy-card .citation {
+    border-top-color: #334155;
+  }
+
+  body.dark .policy-card .citation .label {
+    color: #bfdbfe;
+  }
+
+  body.dark .severity-badge {
+    color: #ffffff;
+  }
+
+  body.dark .action-badge {
+    background: rgba(96, 165, 250, 0.18);
+    color: #dbeafe;
+  }
+
+  body.dark .sim-verdict.safe {
+    background: rgba(21, 128, 61, 0.22);
+    color: #dcfce7;
+    border: 1px solid rgba(74, 222, 128, 0.35);
+  }
+
+  body.dark .sim-verdict.review {
+    background: rgba(249, 115, 22, 0.16);
+    color: #fed7aa;
+  }
+
+  body.dark [style*="background:#eef6ff"] {
+    background: #172554 !important;
+    border-color: #334155 !important;
+    color: #eff6ff !important;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -305,7 +351,11 @@
     border-radius: 6px;
   }
 
-  .sim-verdict.safe { background: rgba(34,197,94,0.1); color: #86efac; }
+  .sim-verdict.safe {
+    background: rgba(220, 252, 231, 0.95);
+    color: #166534;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+  }
   .sim-verdict.review { background: rgba(249,115,22,0.1); color: #fdba74; }
 
   .empty-state {
@@ -352,7 +402,22 @@
 <header>
   <div>
     <h1>Vant<span>age</span></h1>
-    <div class="tagline">Autonomous access governance — multi-agent reasoning over Microsoft Foundry</div>
+    <div class="tagline">
+  Autonomous access governance — multi-agent reasoning over Microsoft Foundry
+</div>
+
+<div style="
+  display:inline-block;
+  margin-top:8px;
+  padding:6px 12px;
+  background:#e6f4ea;
+  color:#137333;
+  border-radius:16px;
+  font-size:13px;
+  font-weight:600;
+">
+   Grounded with Azure Foundry IQ Knowledge Base
+</div>
   </div>
   <div class="header-actions">
     <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Toggle theme">🌙 Dark</button>
@@ -409,6 +474,21 @@
 
   <div class="panel" style="grid-column: 1 / -1;">
     <h2><span class="dot"></span> Remediation Report (Foundry IQ–grounded, cited)</h2>
+    <div style="
+  background:#eef6ff;
+  border:1px solid #c7ddff;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:12px;
+  font-size:14px;
+">
+  <strong> Foundry IQ Evidence Sources</strong><br>
+  • POL-ACCESS-001<br>
+  • remediation_playbook.md<br>
+  • SOC2 Controls Mapping<br>
+  • Incident History Repository<br>
+  • Risk Scoring Rubric
+</div>
     <div id="policy-report">
       <div class="empty-state">
         <div class="icon">📋</div>
