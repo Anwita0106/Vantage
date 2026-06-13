@@ -1,0 +1,110 @@
+[
+  {
+    "user_id": "EMP-001",
+    "name": "Priya Sharma",
+    "role": "Marketing Manager",
+    "department": "Marketing",
+    "tenure_months": 28,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-002",
+    "name": "Raj Mehta",
+    "role": "Software Engineering Intern",
+    "department": "Engineering",
+    "tenure_months": 3,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-003",
+    "name": "Samira Khan",
+    "role": "DevOps Engineer",
+    "department": "Engineering",
+    "tenure_months": 36,
+    "preferred_change_window": "weekend maintenance window",
+    "current_workload": "high - active sprint, avoid disruption"
+  },
+  {
+    "user_id": "EMP-004",
+    "name": "Daniel Cho",
+    "role": "Sales Representative",
+    "department": "Sales",
+    "tenure_months": 14,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-005",
+    "name": "Aisha Bello",
+    "role": "Finance Analyst",
+    "department": "Finance",
+    "tenure_months": 19,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-006",
+    "name": "Tom Becker",
+    "role": "HR Coordinator",
+    "department": "HR",
+    "tenure_months": 8,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-007",
+    "name": "Lena Fischer",
+    "role": "Backend Engineer",
+    "department": "Engineering",
+    "tenure_months": 22,
+    "preferred_change_window": "weekend maintenance window",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-008",
+    "name": "Carlos Ortiz",
+    "role": "Product Manager",
+    "department": "Product",
+    "tenure_months": 31,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-009",
+    "name": "Wei Zhang",
+    "role": "Site Reliability Engineer",
+    "department": "Engineering",
+    "tenure_months": 40,
+    "preferred_change_window": "weekend maintenance window",
+    "current_workload": "high - on-call this week"
+  },
+  {
+    "user_id": "EMP-010",
+    "name": "Olivia Martins",
+    "role": "Marketing Intern",
+    "department": "Marketing",
+    "tenure_months": 2,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-011",
+    "name": "Ahmed Siddiqui",
+    "role": "Finance Manager",
+    "department": "Finance",
+    "tenure_months": 45,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  },
+  {
+    "user_id": "EMP-012",
+    "name": "Grace Lin",
+    "role": "Customer Support Lead",
+    "department": "Support",
+    "tenure_months": 26,
+    "preferred_change_window": "low-activity hours (10 PM - 2 AM)",
+    "current_workload": "normal"
+  }
+]

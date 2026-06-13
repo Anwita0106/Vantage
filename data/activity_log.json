@@ -1,0 +1,216 @@
+{
+  "log_period": "2026-05-13 to 2026-06-12",
+  "description": "Aggregated access events per user per resource over the last 30 days. Used by the Simulation Agent to determine whether a proposed access change would have blocked real activity.",
+  "activity": [
+    {
+      "user_id": "EMP-001",
+      "resource_id": "RES-001",
+      "access_count_30d": 0,
+      "last_accessed": null,
+      "notes": "No access events recorded since the original campaign project ended in Q1 2024."
+    },
+    {
+      "user_id": "EMP-001",
+      "resource_id": "RES-003",
+      "access_count_30d": 47,
+      "last_accessed": "2026-06-11",
+      "notes": "Regular daily use for campaign management."
+    },
+    {
+      "user_id": "EMP-001",
+      "resource_id": "RES-005",
+      "access_count_30d": 142,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily email usage."
+    },
+    {
+      "user_id": "EMP-002",
+      "resource_id": "RES-004",
+      "access_count_30d": 63,
+      "last_accessed": "2026-06-12",
+      "notes": "Active daily commits to code repository as part of internship project."
+    },
+    {
+      "user_id": "EMP-002",
+      "resource_id": "RES-002",
+      "access_count_30d": 0,
+      "last_accessed": null,
+      "notes": "No billing console access events recorded since access was granted."
+    },
+    {
+      "user_id": "EMP-002",
+      "resource_id": "RES-005",
+      "access_count_30d": 89,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily email usage."
+    },
+    {
+      "user_id": "EMP-003",
+      "resource_id": "RES-006",
+      "access_count_30d": 58,
+      "last_accessed": "2026-06-12",
+      "notes": "Frequent SSH access for deployment and maintenance tasks."
+    },
+    {
+      "user_id": "EMP-003",
+      "resource_id": "RES-007",
+      "access_count_30d": 102,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily monitoring dashboard usage."
+    },
+    {
+      "user_id": "EMP-003",
+      "resource_id": "RES-002",
+      "access_count_30d": 12,
+      "last_accessed": "2026-06-09",
+      "notes": "Periodic cost review checks."
+    },
+    {
+      "user_id": "EMP-003",
+      "resource_id": "RES-004",
+      "access_count_30d": 41,
+      "last_accessed": "2026-06-11",
+      "notes": "Regular use for infrastructure-as-code commits."
+    },
+    {
+      "user_id": "EMP-004",
+      "resource_id": "RES-005",
+      "access_count_30d": 110,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily email usage."
+    },
+    {
+      "user_id": "EMP-004",
+      "resource_id": "RES-001",
+      "access_count_30d": 3,
+      "last_accessed": "2026-05-20",
+      "notes": "Accessed twice in late May for the Q4 sales report, then unused."
+    },
+    {
+      "user_id": "EMP-005",
+      "resource_id": "RES-002",
+      "access_count_30d": 22,
+      "last_accessed": "2026-06-12",
+      "notes": "Regular use for budget tracking and cost allocation."
+    },
+    {
+      "user_id": "EMP-005",
+      "resource_id": "RES-008",
+      "access_count_30d": 31,
+      "last_accessed": "2026-06-11",
+      "notes": "Regular payroll processing tasks."
+    },
+    {
+      "user_id": "EMP-006",
+      "resource_id": "RES-009",
+      "access_count_30d": 54,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily HR records management."
+    },
+    {
+      "user_id": "EMP-006",
+      "resource_id": "RES-001",
+      "access_count_30d": 0,
+      "last_accessed": null,
+      "notes": "No access events recorded since onboarding. Access appears unused."
+    },
+    {
+      "user_id": "EMP-007",
+      "resource_id": "RES-004",
+      "access_count_30d": 71,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily code repository activity."
+    },
+    {
+      "user_id": "EMP-007",
+      "resource_id": "RES-001",
+      "access_count_30d": 38,
+      "last_accessed": "2026-06-12",
+      "notes": "Regular database access for backend development."
+    },
+    {
+      "user_id": "EMP-007",
+      "resource_id": "RES-006",
+      "access_count_30d": 1,
+      "last_accessed": "2026-05-14",
+      "notes": "Accessed once shortly after the migration project ended in December 2024; unused since."
+    },
+    {
+      "user_id": "EMP-008",
+      "resource_id": "RES-004",
+      "access_count_30d": 9,
+      "last_accessed": "2026-06-10",
+      "notes": "Occasional review of repository for roadmap planning."
+    },
+    {
+      "user_id": "EMP-008",
+      "resource_id": "RES-007",
+      "access_count_30d": 15,
+      "last_accessed": "2026-06-11",
+      "notes": "Regular review of product metrics dashboards."
+    },
+    {
+      "user_id": "EMP-009",
+      "resource_id": "RES-006",
+      "access_count_30d": 87,
+      "last_accessed": "2026-06-12",
+      "notes": "Heavy SSH usage, currently on-call."
+    },
+    {
+      "user_id": "EMP-009",
+      "resource_id": "RES-007",
+      "access_count_30d": 134,
+      "last_accessed": "2026-06-12",
+      "notes": "Constant monitoring dashboard usage, currently on-call."
+    },
+    {
+      "user_id": "EMP-009",
+      "resource_id": "RES-002",
+      "access_count_30d": 18,
+      "last_accessed": "2026-06-12",
+      "notes": "Regular infrastructure cost monitoring."
+    },
+    {
+      "user_id": "EMP-010",
+      "resource_id": "RES-003",
+      "access_count_30d": 29,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily use for marketing content tasks as part of internship."
+    },
+    {
+      "user_id": "EMP-010",
+      "resource_id": "RES-002",
+      "access_count_30d": 0,
+      "last_accessed": null,
+      "notes": "No billing console access events recorded since access was granted during onboarding."
+    },
+    {
+      "user_id": "EMP-011",
+      "resource_id": "RES-008",
+      "access_count_30d": 44,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily payroll management as Finance Manager."
+    },
+    {
+      "user_id": "EMP-011",
+      "resource_id": "RES-002",
+      "access_count_30d": 27,
+      "last_accessed": "2026-06-12",
+      "notes": "Regular billing oversight as Finance Manager."
+    },
+    {
+      "user_id": "EMP-012",
+      "resource_id": "RES-010",
+      "access_count_30d": 76,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily support ticket management."
+    },
+    {
+      "user_id": "EMP-012",
+      "resource_id": "RES-005",
+      "access_count_30d": 95,
+      "last_accessed": "2026-06-12",
+      "notes": "Daily email usage."
+    }
+  ]
+}

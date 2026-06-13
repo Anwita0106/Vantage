@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+networkx
+mcp
+openai
+python-dotenv

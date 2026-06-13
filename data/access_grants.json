@@ -1,0 +1,242 @@
+[
+  {
+    "grant_id": "GR-001",
+    "user_id": "EMP-001",
+    "resource_id": "RES-001",
+    "access_level": "admin",
+    "granted_date": "2024-03-12",
+    "reason_on_file": "Temporary access for Q1 2024 campaign analytics project"
+  },
+  {
+    "grant_id": "GR-002",
+    "user_id": "EMP-001",
+    "resource_id": "RES-003",
+    "access_level": "editor",
+    "granted_date": "2023-02-01",
+    "reason_on_file": "Standard role-based access for Marketing Manager"
+  },
+  {
+    "grant_id": "GR-003",
+    "user_id": "EMP-001",
+    "resource_id": "RES-005",
+    "access_level": "user",
+    "granted_date": "2023-02-01",
+    "reason_on_file": "Standard company email access"
+  },
+  {
+    "grant_id": "GR-004",
+    "user_id": "EMP-002",
+    "resource_id": "RES-004",
+    "access_level": "editor",
+    "granted_date": "2025-03-20",
+    "reason_on_file": "Standard access for engineering internship"
+  },
+  {
+    "grant_id": "GR-005",
+    "user_id": "EMP-002",
+    "resource_id": "RES-002",
+    "access_level": "admin",
+    "granted_date": "2025-03-20",
+    "reason_on_file": "Granted during onboarding - copied from senior engineer template"
+  },
+  {
+    "grant_id": "GR-006",
+    "user_id": "EMP-002",
+    "resource_id": "RES-005",
+    "access_level": "user",
+    "granted_date": "2025-03-20",
+    "reason_on_file": "Standard company email access"
+  },
+  {
+    "grant_id": "GR-007",
+    "user_id": "EMP-003",
+    "resource_id": "RES-006",
+    "access_level": "admin",
+    "granted_date": "2022-06-15",
+    "reason_on_file": "Standard role-based access for DevOps Engineer"
+  },
+  {
+    "grant_id": "GR-008",
+    "user_id": "EMP-003",
+    "resource_id": "RES-007",
+    "access_level": "admin",
+    "granted_date": "2022-06-15",
+    "reason_on_file": "Standard role-based access for DevOps Engineer"
+  },
+  {
+    "grant_id": "GR-009",
+    "user_id": "EMP-003",
+    "resource_id": "RES-002",
+    "access_level": "editor",
+    "granted_date": "2022-06-15",
+    "reason_on_file": "Standard role-based access for DevOps Engineer (cost monitoring)"
+  },
+  {
+    "grant_id": "GR-010",
+    "user_id": "EMP-003",
+    "resource_id": "RES-004",
+    "access_level": "editor",
+    "granted_date": "2022-06-15",
+    "reason_on_file": "Standard role-based access for DevOps Engineer"
+  },
+  {
+    "grant_id": "GR-011",
+    "user_id": "EMP-004",
+    "resource_id": "RES-005",
+    "access_level": "user",
+    "granted_date": "2024-10-01",
+    "reason_on_file": "Standard company email access"
+  },
+  {
+    "grant_id": "GR-012",
+    "user_id": "EMP-004",
+    "resource_id": "RES-001",
+    "access_level": "viewer",
+    "granted_date": "2024-11-15",
+    "reason_on_file": "Temporary access to view customer order history for Q4 sales push"
+  },
+  {
+    "grant_id": "GR-013",
+    "user_id": "EMP-005",
+    "resource_id": "RES-002",
+    "access_level": "editor",
+    "granted_date": "2023-08-01",
+    "reason_on_file": "Standard role-based access for Finance Analyst"
+  },
+  {
+    "grant_id": "GR-014",
+    "user_id": "EMP-005",
+    "resource_id": "RES-008",
+    "access_level": "editor",
+    "granted_date": "2023-08-01",
+    "reason_on_file": "Standard role-based access for Finance Analyst"
+  },
+  {
+    "grant_id": "GR-015",
+    "user_id": "EMP-006",
+    "resource_id": "RES-009",
+    "access_level": "admin",
+    "granted_date": "2025-01-10",
+    "reason_on_file": "Standard role-based access for HR Coordinator"
+  },
+  {
+    "grant_id": "GR-016",
+    "user_id": "EMP-006",
+    "resource_id": "RES-001",
+    "access_level": "viewer",
+    "granted_date": "2025-01-10",
+    "reason_on_file": "Granted during onboarding - access not yet reviewed"
+  },
+  {
+    "grant_id": "GR-017",
+    "user_id": "EMP-007",
+    "resource_id": "RES-004",
+    "access_level": "admin",
+    "granted_date": "2023-09-05",
+    "reason_on_file": "Standard role-based access for Backend Engineer"
+  },
+  {
+    "grant_id": "GR-018",
+    "user_id": "EMP-007",
+    "resource_id": "RES-001",
+    "access_level": "editor",
+    "granted_date": "2023-09-05",
+    "reason_on_file": "Standard role-based access for Backend Engineer"
+  },
+  {
+    "grant_id": "GR-019",
+    "user_id": "EMP-007",
+    "resource_id": "RES-006",
+    "access_level": "admin",
+    "granted_date": "2024-12-01",
+    "reason_on_file": "Granted for one-off migration project, not revoked after completion"
+  },
+  {
+    "grant_id": "GR-020",
+    "user_id": "EMP-008",
+    "resource_id": "RES-004",
+    "access_level": "viewer",
+    "granted_date": "2024-02-14",
+    "reason_on_file": "Standard role-based access for Product Manager"
+  },
+  {
+    "grant_id": "GR-021",
+    "user_id": "EMP-008",
+    "resource_id": "RES-007",
+    "access_level": "viewer",
+    "granted_date": "2024-02-14",
+    "reason_on_file": "Standard role-based access for Product Manager"
+  },
+  {
+    "grant_id": "GR-022",
+    "user_id": "EMP-009",
+    "resource_id": "RES-006",
+    "access_level": "admin",
+    "granted_date": "2021-04-10",
+    "reason_on_file": "Standard role-based access for Site Reliability Engineer"
+  },
+  {
+    "grant_id": "GR-023",
+    "user_id": "EMP-009",
+    "resource_id": "RES-007",
+    "access_level": "admin",
+    "granted_date": "2021-04-10",
+    "reason_on_file": "Standard role-based access for Site Reliability Engineer"
+  },
+  {
+    "grant_id": "GR-024",
+    "user_id": "EMP-009",
+    "resource_id": "RES-002",
+    "access_level": "admin",
+    "granted_date": "2021-04-10",
+    "reason_on_file": "Standard role-based access for SRE (infrastructure cost ownership)"
+  },
+  {
+    "grant_id": "GR-025",
+    "user_id": "EMP-010",
+    "resource_id": "RES-003",
+    "access_level": "viewer",
+    "granted_date": "2025-05-01",
+    "reason_on_file": "Standard access for marketing internship"
+  },
+  {
+    "grant_id": "GR-026",
+    "user_id": "EMP-010",
+    "resource_id": "RES-002",
+    "access_level": "viewer",
+    "granted_date": "2025-05-01",
+    "reason_on_file": "Granted during onboarding - copied from team lead template, not reviewed"
+  },
+  {
+    "grant_id": "GR-027",
+    "user_id": "EMP-011",
+    "resource_id": "RES-008",
+    "access_level": "admin",
+    "granted_date": "2020-09-01",
+    "reason_on_file": "Standard role-based access for Finance Manager"
+  },
+  {
+    "grant_id": "GR-028",
+    "user_id": "EMP-011",
+    "resource_id": "RES-002",
+    "access_level": "admin",
+    "granted_date": "2020-09-01",
+    "reason_on_file": "Standard role-based access for Finance Manager"
+  },
+  {
+    "grant_id": "GR-029",
+    "user_id": "EMP-012",
+    "resource_id": "RES-010",
+    "access_level": "admin",
+    "granted_date": "2023-04-18",
+    "reason_on_file": "Standard role-based access for Customer Support Lead"
+  },
+  {
+    "grant_id": "GR-030",
+    "user_id": "EMP-012",
+    "resource_id": "RES-005",
+    "access_level": "user",
+    "granted_date": "2023-04-18",
+    "reason_on_file": "Standard company email access"
+  }
+]

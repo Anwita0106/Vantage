@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vantage — Autonomous Access Governance</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/vis-network.min.js"></script>
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --bg-top: #f8fbff;
+    --panel: #ffffff;
+    --panel-border: #dfe6ef;
+    --text: #172033;
+    --text-dim: #5b6b83;
+    --accent: #2563eb;
+    --accent-soft: #1d4ed8;
+    --graph-bg: #f8fbff;
+    --policy-bg: #f8fbff;
+    --button-bg: #e8eef7;
+    --button-text: #334155;
+    --input-bg: #ffffff;
+    --critical: #dc2626;
+    --high: #f97316;
+    --medium: #eab308;
+    --low: #22c55e;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  body.dark {
+    --bg: #09111f;
+    --bg-top: #0f1729;
+    --panel: #121a29;
+    --panel-border: #263145;
+    --text: #edf2f7;
+    --text-dim: #aab6ca;
+    --accent: #8b9cff;
+    --accent-soft: #6366f1;
+    --graph-bg: #0f1729;
+    --policy-bg: #111827;
+    --button-bg: #1c2540;
+    --button-text: #e5edf8;
+    --input-bg: #162033;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--panel-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header h1 {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  header h1 span {
+    color: var(--accent);
+  }
+
+  header .tagline {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .analyze-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  }
+
+  .analyze-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45); }
+  .analyze-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .theme-toggle {
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 16px;
+    padding: 16px 24px;
+    max-width: 1700px;
+    margin: 0 auto;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  .panel h2 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+
+  .panel h2 .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* Graph panel */
+  #graph-container {
+    height: 480px;
+    border-radius: 8px;
+    background: var(--graph-bg);
+    border: 1px solid var(--panel-border);
+  }
+
+  .graph-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .graph-toggle button {
+    background: var(--button-bg);
+    border: 1px solid var(--panel-border);
+    color: var(--button-text);
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .graph-toggle button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend .swatch { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+  /* Agent log */
+  #agent-log {
+    height: 480px;
+    overflow-y: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    padding-right: 4px;
+  }
+
+  #agent-log::-webkit-scrollbar { width: 6px; }
+  #agent-log::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 3px; }
+
+  .log-line {
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+    word-wrap: break-word;
+  }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .log-line .agent-tag {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .log-line.flag { background: rgba(220, 38, 38, 0.12); border-left: 3px solid var(--critical); }
+  .log-line.safe { background: rgba(34, 197, 94, 0.12); border-left: 3px solid var(--low); }
+  .log-line.normal { color: var(--text-dim); }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: center;
+  }
+
+  .stat-card .value { font-size: 31px; font-weight: 700; }
+  .stat-card .label { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+  .stat-card.flagged .value { color: var(--high); }
+  .stat-card.safe .value { color: var(--low); }
+
+  /* Policy report */
+  .policy-card {
+    background: var(--policy-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .policy-card .policy-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .policy-card .policy-title {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .severity-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .severity-badge.Critical { background: rgba(220,38,38,0.2); color: var(--critical); }
+  .severity-badge.High { background: rgba(249,115,22,0.2); color: var(--high); }
+  .severity-badge.Medium { background: rgba(234,179,8,0.2); color: var(--medium); }
+  .severity-badge.Low { background: rgba(34,197,94,0.2); color: var(--low); }
+
+  .policy-card .action-line {
+    font-size: 15px;
+    margin: 6px 0;
+  }
+
+  .action-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(99,102,241,0.2);
+    color: #a5b4fc;
+    margin-right: 6px;
+  }
+
+  .policy-card .citation {
+    font-size: 14px;
+    color: var(--text-dim);
+    border-top: 1px solid var(--panel-border);
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+
+  .policy-card .citation .label { color: var(--accent); font-weight: 600; }
+
+  .sim-verdict {
+    font-size: 14px;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  .sim-verdict.safe { background: rgba(34,197,94,0.1); color: #86efac; }
+  .sim-verdict.review { background: rgba(249,115,22,0.1); color: #fdba74; }
+
+  .empty-state {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 16px;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .empty-state .icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+
+  #policy-report { height: 480px; overflow-y: auto; padding-right: 4px; }
+  #policy-report::-webkit-scrollbar { width: 6px; }
+  #policy-report::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 3px; }
+
+  .config-bar {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding: 8px 32px;
+    border-bottom: 1px solid var(--panel-border);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .config-bar input {
+    background: var(--input-bg);
+    border: 1px solid var(--panel-border);
+    color: var(--text);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 240px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Vant<span>age</span></h1>
+    <div class="tagline">Autonomous access governance — multi-agent reasoning over Microsoft Foundry</div>
+  </div>
+  <div class="header-actions">
+    <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Toggle theme">🌙 Dark</button>
+    <button class="analyze-btn" id="analyzeBtn" onclick="runAnalysis()">▶ Run Analysis</button>
+  </div>
+</header>
+
+<div class="config-bar">
+  <span>API endpoint:</span>
+  <input id="apiEndpoint" value="http://localhost:8000" />
+</div>
+
+<div class="layout">
+
+  <!-- LEFT COLUMN -->
+  <div>
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card"><div class="value" id="statTotal">—</div><div class="label">Total Access Grants</div></div>
+      <div class="stat-card flagged"><div class="value" id="statFlagged">—</div><div class="label">Flagged (Risk ≥ 5)</div></div>
+      <div class="stat-card safe"><div class="value" id="statSafe">—</div><div class="label">Safe to Auto-Apply</div></div>
+      <div class="stat-card"><div class="value" id="statReview">—</div><div class="label">Flagged for Review</div></div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="dot"></span> Organization Access Graph</h2>
+      <div class="graph-toggle">
+        <button id="btnBefore" class="active" onclick="showGraph('before')">Before</button>
+        <button id="btnAfter" onclick="showGraph('after')">After Remediation</button>
+      </div>
+      <div id="graph-container"></div>
+      <div class="legend">
+        <span><span class="swatch" style="background:#dc2626"></span> Critical</span>
+        <span><span class="swatch" style="background:#f97316"></span> High</span>
+        <span><span class="swatch" style="background:#eab308"></span> Medium</span>
+        <span><span class="swatch" style="background:#22c55e"></span> Low / Resolved</span>
+        <span><span class="swatch" style="background:#94a3b8"></span> Resource</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div style="display:grid; grid-template-rows: auto 1fr; gap:16px;">
+    <div class="panel">
+      <h2><span class="dot"></span> Agent Reasoning Log</h2>
+      <div id="agent-log">
+        <div class="empty-state">
+          <div class="icon">⚙</div>
+          Click "Run Analysis" to start the multi-agent pipeline:<br/>
+          Discovery → Risk Scoring → Policy Generation → Simulation
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="grid-column: 1 / -1;">
+    <h2><span class="dot"></span> Remediation Report (Foundry IQ–grounded, cited)</h2>
+    <div id="policy-report">
+      <div class="empty-state">
+        <div class="icon">📋</div>
+        Remediation recommendations with policy citations will appear here after analysis.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let network = null;
+let cachedResult = null;
+
+function applyTheme(mode) {
+  const dark = mode === 'dark';
+  document.body.classList.toggle('dark', dark);
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = dark ? '☀️ Light' : '🌙 Dark';
+  localStorage.setItem('vantage-theme', mode);
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.contains('dark');
+  applyTheme(isDark ? 'light' : 'dark');
+}
+
+function getApiBase() {
+  return document.getElementById('apiEndpoint').value.trim().replace(/\/$/, '');
+}
+
+async function runAnalysis() {
+  const btn = document.getElementById('analyzeBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Running agents...';
+
+  const logEl = document.getElementById('agent-log');
+  logEl.innerHTML = '';
+
+  try {
+    const res = await fetch(getApiBase() + '/analyze', { method: 'POST' });
+    if (!res.ok) throw new Error('API error: ' + res.status);
+    const data = await res.json();
+    cachedResult = data;
+
+    renderStats(data.stats);
+    await streamLog(data.agent_log);
+    renderGraph(data.graph_before);
+    renderPolicyReport(data.policies);
+
+  } catch (err) {
+    logEl.innerHTML = `<div class="empty-state"><div class="icon">⚠</div>Could not reach API at ${getApiBase()}.<br/>Make sure the backend is running (uvicorn main:app --port 8000).<br/><br/><span style="color:#fda4af">${err.message}</span></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '▶ Run Analysis';
+  }
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('vantage-theme');
+  applyTheme(saved || 'light');
+})();
+
+function renderStats(stats) {
+  document.getElementById('statTotal').textContent = stats.total_grants;
+  document.getElementById('statFlagged').textContent = stats.flagged_count;
+  document.getElementById('statSafe').textContent = stats.safe_to_apply_count;
+  document.getElementById('statReview').textContent = stats.flagged_for_review_count;
+}
+
+function streamLog(lines) {
+  const logEl = document.getElementById('agent-log');
+  return new Promise(resolve => {
+    let i = 0;
+    function next() {
+      if (i >= lines.length) { resolve(); return; }
+      const line = lines[i];
+      const div = document.createElement('div');
+      div.className = 'log-line normal';
+
+      if (line.includes('FLAGGED')) div.className = 'log-line flag';
+      else if (line.includes('SAFE TO APPLY')) div.className = 'log-line safe';
+
+      // bold the [Agent Name] tag
+      const formatted = line.replace(/^(\[.*?\])/, '<span class="agent-tag">$1</span>');
+      div.innerHTML = formatted;
+      logEl.appendChild(div);
+      logEl.scrollTop = logEl.scrollHeight;
+      i++;
+      setTimeout(next, 90);
+    }
+    next();
+  });
+}
+
+function renderGraph(graphData) {
+  const nodes = graphData.nodes.map(n => ({
+    id: n.id,
+    label: n.label,
+    shape: n.type === 'user' ? 'dot' : 'box',
+    color: n.type === 'user'
+      ? { background: '#6366f1', border: '#818cf8' }
+      : { background: sensitivityColor(n.sensitivity), border: '#1e293b' },
+    font: { color: '#e6e9f2', size: 12 },
+    size: n.type === 'user' ? 14 : 18,
+    shapeProperties: { borderRadius: 4 },
+  }));
+
+  const edges = graphData.edges.map(e => ({
+    from: e.source,
+    to: e.target,
+    color: { color: e.color, opacity: 0.8 },
+    width: e.severity === 'Critical' || e.severity === 'High' ? 2.5 : 1,
+    arrows: { to: { enabled: true, scaleFactor: 0.4 } },
+    dashes: e.changed ? [4, 4] : false,
+    title: `${e.grant_id}: ${e.access_level} (${e.severity})`,
+  }));
+
+  const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+  const options = {
+    physics: { stabilization: true, barnesHut: { gravitationalConstant: -3000, springLength: 120 } },
+    interaction: { hover: true, tooltipDelay: 100 },
+    layout: { improvedLayout: true },
+  };
+
+  const container = document.getElementById('graph-container');
+  if (network) network.destroy();
+  network = new vis.Network(container, data, options);
+}
+
+function sensitivityColor(sensitivity) {
+  switch (sensitivity) {
+    case 'critical': return '#7f1d1d';
+    case 'high': return '#7c2d12';
+    case 'medium': return '#374151';
+    default: return '#1f2937';
+  }
+}
+
+function showGraph(which) {
+  if (!cachedResult) return;
+  document.getElementById('btnBefore').classList.toggle('active', which === 'before');
+  document.getElementById('btnAfter').classList.toggle('active', which === 'after');
+  renderGraph(which === 'before' ? cachedResult.graph_before : cachedResult.graph_after);
+}
+
+function renderPolicyReport(policies) {
+  const container = document.getElementById('policy-report');
+  if (!policies || policies.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">✅</div>No high-risk grants found.</div>';
+    return;
+  }
+
+  container.innerHTML = policies.map(p => {
+    const actionLabel = {
+      remove: 'REMOVE ACCESS',
+      downgrade: `DOWNGRADE → ${p.new_access_level || 'viewer'}`,
+      no_change: 'NO ACTION NEEDED',
+    }[p.recommended_action] || p.recommended_action.toUpperCase();
+
+    const verdictClass = p.safe_to_apply ? 'safe' : 'review';
+    const verdictIcon = p.safe_to_apply ? '✅' : '⚠️';
+
+    return `
+      <div class="policy-card">
+        <div class="policy-header">
+          <div class="policy-title">${p.grant_id} — ${p.user_name} → ${p.resource_name}</div>
+          <span class="severity-badge ${p.severity || 'Low'}">${p.severity || 'Low'}</span>
+        </div>
+        <div class="action-line">
+          <span class="action-badge">${actionLabel}</span>
+          current: <strong>${p.current_access_level}</strong>
+        </div>
+        <div class="action-line" style="color:var(--text-dim)">${p.matched_pattern || ''}</div>
+        <div class="sim-verdict ${verdictClass}">${verdictIcon} ${p.verdict_reason || ''}</div>
+        <div class="citation">
+          <span class="label">Citation:</span> ${p.citation || 'N/A'}
+          ${p.supporting_incident ? `<br/><span class="label">Related Incident:</span> ${p.supporting_incident}` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+</script>
+
+</body>
+</html>

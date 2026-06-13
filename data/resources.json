@@ -1,0 +1,72 @@
+[
+  {
+    "resource_id": "RES-001",
+    "name": "Production Database (Customer Records)",
+    "type": "database",
+    "department_owner": "Engineering",
+    "sensitivity": "critical"
+  },
+  {
+    "resource_id": "RES-002",
+    "name": "AWS Billing Console",
+    "type": "cloud_admin",
+    "department_owner": "Finance",
+    "sensitivity": "critical"
+  },
+  {
+    "resource_id": "RES-003",
+    "name": "Marketing CMS",
+    "type": "application",
+    "department_owner": "Marketing",
+    "sensitivity": "low"
+  },
+  {
+    "resource_id": "RES-004",
+    "name": "Internal Code Repository",
+    "type": "code_repo",
+    "department_owner": "Engineering",
+    "sensitivity": "medium"
+  },
+  {
+    "resource_id": "RES-005",
+    "name": "Company Email System",
+    "type": "communication",
+    "department_owner": "IT",
+    "sensitivity": "medium"
+  },
+  {
+    "resource_id": "RES-006",
+    "name": "Production Servers (SSH Access)",
+    "type": "infrastructure",
+    "department_owner": "Engineering",
+    "sensitivity": "critical"
+  },
+  {
+    "resource_id": "RES-007",
+    "name": "Monitoring & Observability Dashboard",
+    "type": "application",
+    "department_owner": "Engineering",
+    "sensitivity": "medium"
+  },
+  {
+    "resource_id": "RES-008",
+    "name": "Payroll System",
+    "type": "application",
+    "department_owner": "Finance",
+    "sensitivity": "critical"
+  },
+  {
+    "resource_id": "RES-009",
+    "name": "HR Records System",
+    "type": "application",
+    "department_owner": "HR",
+    "sensitivity": "high"
+  },
+  {
+    "resource_id": "RES-010",
+    "name": "Customer Support Ticketing Tool",
+    "type": "application",
+    "department_owner": "Support",
+    "sensitivity": "low"
+  }
+]
