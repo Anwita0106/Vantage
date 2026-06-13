@@ -1,4 +1,4 @@
-# Vantage
+# Vantage💻
 
 **Autonomous Access Governance Platform**
 
@@ -456,7 +456,7 @@ curl -X POST http://localhost:8000/api/pipeline/run \
 A walkthrough video demonstrating the full Vantage workflow — from data ingestion through risk scoring, policy-grounded recommendations, simulation, and final outputs — will be linked here.
 
 ```
-[Demo video link to be added]
+https://drive.google.com/file/d/1PFw3eIt240clPYDpkqC5qZ1PHVIre1Pt/view?usp=drivesdk
 ```
 
 ---
@@ -487,3 +487,9 @@ A walkthrough video demonstrating the full Vantage workflow — from data ingest
 ## Acknowledgements
 
 This project was developed as an exploration of multi-agent architectures applied to access governance, drawing on established access governance and compliance frameworks (including least privilege principles and SOC 2 trust services criteria) as the basis for the knowledge layer.
+
+## Author
+
+Anwita Padhi
+
+
