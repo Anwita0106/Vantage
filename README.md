@@ -131,7 +131,7 @@ flowchart TD
     SA --> OUT
 ```
 
-A static rendering of this diagram is also available at `screenshots/architecture.png`.
+
 
 ![Architecture](screenshots/architecture.jpeg)
 
