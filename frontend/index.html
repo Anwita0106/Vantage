@@ -144,13 +144,10 @@
 
   /* Graph panel */
   #graph-container {
-    height: 520px;
-    width: 90%;
-    margin: 0 auto;
-    border-radius: 10px;
+    height: 480px;
+    border-radius: 8px;
     background: var(--graph-bg);
     border: 1px solid var(--panel-border);
-    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
   }
 
   .graph-toggle {
@@ -510,27 +507,24 @@ function streamLog(lines) {
 function renderGraph(graphData) {
   const nodes = graphData.nodes.map(n => {
     const isUser = n.type === 'user';
-    const isCriticalResource = (n.sensitivity || '').toLowerCase() === 'critical';
-    const isHighRiskResource = (n.sensitivity || '').toLowerCase() === 'high';
+    const isHighRisk = (n.sensitivity || '').toLowerCase() === 'high' || (n.sensitivity || '').toLowerCase() === 'critical';
 
     return {
       id: n.id,
       label: n.label,
       shape: isUser ? 'dot' : 'box',
-      size: isUser ? 30 : 26,
+      size: isUser ? 28 : 24,
       font: {
         color: isUser ? '#eff6ff' : '#0f172a',
-        size: 17,
+        size: 16,
         face: 'Segoe UI, Arial, sans-serif',
         vadjust: 0,
       },
       color: isUser
         ? { background: '#2563eb', border: '#1d4ed8', highlight: { background: '#3b82f6', border: '#bfdbfe' } }
-        : isCriticalResource
+        : isHighRisk
           ? { background: '#fecaca', border: '#dc2626', highlight: { background: '#fca5a5', border: '#991b1b' } }
-          : isHighRiskResource
-            ? { background: '#fed7aa', border: '#f97316', highlight: { background: '#fdba74', border: '#c2410c' } }
-            : { background: '#e5e7eb', border: '#94a3b8', highlight: { background: '#f1f5f9', border: '#64748b' } },
+          : { background: '#cbd5e1', border: '#94a3b8', highlight: { background: '#e2e8f0', border: '#64748b' } },
       borderWidth: isUser ? 2 : 2,
       borderWidthSelected: 3,
       shadow: { enabled: true, color: 'rgba(15, 23, 42, 0.18)', size: 10, x: 2, y: 2 },
@@ -543,11 +537,11 @@ function renderGraph(graphData) {
     from: e.source,
     to: e.target,
     color: { color: e.color || '#64748b', opacity: 0.9 },
-    width: e.severity === 'Critical' || e.severity === 'High' ? 3.5 : 2.2,
+    width: e.severity === 'Critical' || e.severity === 'High' ? 3 : 2,
     arrows: { to: { enabled: true, scaleFactor: 0.55 } },
     smooth: { type: 'dynamic', roundness: 0.15 },
     dashes: e.changed ? [4, 4] : false,
-    title: `User: ${e.user_name || e.source}\nResource: ${e.resource_name || e.target}\nRisk Score: ${e.risk_score ?? 'N/A'}\nRecommended Action: ${e.recommended_action || 'N/A'}`,
+    title: `${e.grant_id || 'Grant'}: ${e.access_level || 'access'} (${e.severity || 'Normal'})`,
   }));
 
   const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
@@ -568,13 +562,14 @@ function renderGraph(graphData) {
     },
     physics: {
       enabled: true,
-      stabilization: { iterations: 300, fit: true },
-      barnesHut: {
-        gravitationalConstant: -10000,
-        centralGravity: 0.25,
-        springLength: 260,
-        springConstant: 0.045,
-        damping: 0.35,
+      stabilization: { iterations: 200, fit: true },
+      solver: 'forceAtlas2Based',
+      forceAtlas2Based: {
+        gravitationalConstant: -80,
+        centralGravity: 0.015,
+        springLength: 180,
+        springConstant: 0.04,
+        damping: 0.32,
         avoidOverlap: 1,
       },
     },
@@ -596,12 +591,10 @@ function renderGraph(graphData) {
   if (network) network.destroy();
   network = new vis.Network(container, data, options);
 
-  setTimeout(() => {
-    network.fit({ animation: true });
-  }, 120);
-
   network.on('stabilized', () => {
-    network.fit({ animation: { duration: 600, easingFunction: 'easeInOutQuad' } });
+    setTimeout(() => {
+      network.fit({ animation: { duration: 500, easingFunction: 'easeInOutQuad' } });
+    }, 80);
   });
 }
 
