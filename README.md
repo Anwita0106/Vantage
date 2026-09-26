@@ -3,7 +3,7 @@
 **Autonomous Access Governance Platform**
 
 Vantage is a multi-agent system for identifying risky permissions, generating policy-grounded governance recommendations, and validating remediation actions prior to implementation.
-
+ 
 
 ---
 
