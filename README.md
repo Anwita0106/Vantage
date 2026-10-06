@@ -491,5 +491,3 @@ This project was developed as an exploration of multi-agent architectures applie
 ## Author
 
 Anwita Padhi
-
-
